@@ -1,0 +1,1 @@
+print(f"Print from file: {__name__} =)")
