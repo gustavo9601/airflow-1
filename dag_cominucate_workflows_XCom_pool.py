@@ -14,9 +14,11 @@ from datetime import datetime
 # Parametros de configuracion inicial
 # owner => dueño del dag
 # start_date => fecha en que iniciara la ejecucion
+# pool => nombre del pool definido en el dashboard, para paralelismo
 default_args = {
     'owner': 'gustavo_marquez',
-    'start_date': datetime(2021, 7, 10, 10, 0, 0)
+    'start_date': datetime(2021, 7, 10, 10, 0, 0),
+    'pool': 'high_priority'
 }
 
 
@@ -45,6 +47,7 @@ with DAG('dag_test_comunicate_workflows',
     # Inciando otro operator
     # pasando una funcion callback a ejecutar
     # do_xcom_push // notifica a workflow retornara un valor desde el callback
+    # pool='high_priority' // se puede especificar individualmente el pool para cada operator
     prueba_python = PythonOperator(task_id='prueba_python',
                                    python_callable=hello_world_loop,
                                    do_xcom_push=True)
@@ -70,6 +73,5 @@ prueba_python >> prueba_pull_workflow >> prueba_bash
 # Creando otra rama de proceso al tiempo
 # prueba_python >> prueba_pull_workflow
 # prueba_python >> prueba_bash
-# // se toma los ultimos task_id que determinan el fin del proceso
-#[prueba_pull_workflow, prueba_bash] >> fin_proceso_task_id
-
+# // se toma los ultimos task_id que determinan el fin del proceso, al principio crea el proceso en paraleo
+# [prueba_pull_workflow, prueba_bash] >> fin_proceso_task_id
