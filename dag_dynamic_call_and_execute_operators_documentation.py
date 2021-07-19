@@ -43,6 +43,19 @@ with DAG('dag_test_dynamic_call_operators',
     operators_list.append(end)
 
 
+    # añadiendo los comentarios al inicio del script como documentacion para visualizar en el dashboard
+    """
+    dag.dog_md = __doc__ 
+    dag.dog_md = 'documentation string'   
+    """
+    dag.dog_md = __doc__
+
+    # añadiendo documentacion a un operadtor puntual
+    """
+    start.doc_md = 'documentation string'
+    """
+
+
 # creando linealmente pero dinamicamente el llamado de los diferentes operadores
 for i in range(len(operators_list) - 1):
     # llamado dinamico de la lista de operadores
